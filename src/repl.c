@@ -34,7 +34,7 @@ InputBuffer* new_input_buffer() {
   return input_buffer;
 }
 
-void print_prompt() { printf("db > "); }
+void print_prompt() { printf("db > "); } 
 
 
 
