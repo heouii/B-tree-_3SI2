@@ -1,30 +1,52 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
+#ifndef STRUCT_H
+#define STRUCT_H
 
-#define COLUMN_USERNAME_SIZE 32
+#include <stddef.h> //pour size_t
 
-typedef struct
+typedef enum 
 {
-   int id;
-
-   char username[COLUMN_USERNAME_SIZE];
-
-    } ROW;
+    META_COMMAND_SUCCESS,
+    META_COMMAND_UNRECOGNIZED_COMMAND
+} MetaCommandResult;
 
 
- #define TABLE_MAX_PAGES 100
-#define ROWS_PER_PAGE 5
-#define TABLE_MAX_ROWS (ROWS_PER_PAGE * TABLE_MAX_PAGES)
+
+ typedef enum 
+ {
+
+     PREPARE_SUCCESS,
+    PREPARE_UNRECOGNIZED_STATEMENT
+} PrepareResult;
 
 
-typedef struct
+
+typedef enum 
 {
-    ROW rows[TABLE_MAX_ROWS];
-    size_t num_rows;
-} TABLE;
+    STATEMENT_INSERT,
+    STATEMENT_SELECT
+} StatementType;
 
+
+
+
+typedef struct 
+{
+    StatementType type;
+    int id;
+    char name[32];
+    char breed[32];
+} Statement;
+
+
+
+
+typedef struct {
+    char* buffer;
+    size_t buffer_length;
+    ssize_t input_length;
+} InputBuffer;
+
+#endif 
 
 
 
