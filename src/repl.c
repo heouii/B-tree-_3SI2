@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "btree.h"
 #include "struc.h" 
+#include "repl.h"
 
 
 InputBuffer* new_input_buffer() 
