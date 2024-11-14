@@ -2,7 +2,7 @@
 #define BTREE_H
 
 typedef struct TreeNode 
-//implementer auto incrementation de l'id et le rajout de colunm pas de statique
+
 {
     int id;
     char name[32];

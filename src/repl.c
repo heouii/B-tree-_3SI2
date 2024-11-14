@@ -74,9 +74,9 @@ PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement)
 
 void execute_insert(Statement* statement, TreeNode** root) {
 
-    *root = insert(*root, statement->id, statement->name, statement->breed);
+    *root = insert(*root,  statement->name, statement->breed);
 
-    printf("Executed insert: ID=%d Name=%s Breed=%s\n", statement->id, statement->name, statement->breed);
+    printf("Executed insert:Name=%s Breed=%s\n", statement->name, statement->breed);
 }
 
 void execute_select(TreeNode* root) {

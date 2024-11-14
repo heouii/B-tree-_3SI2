@@ -3,9 +3,11 @@
 #include <string.h>
 #include "btree.h"
 
-TreeNode* create_node(int id, const char* name, const char* breed) {
+int curent_id =0;
+
+TreeNode* create_node(const char* name, const char* breed) {
     TreeNode* node = (TreeNode*)malloc(sizeof(TreeNode));
-    node->id = id;
+    node->id = Curent_id++;
     
     strcpy(node->name, name);
     strcpy(node->breed, breed);
@@ -17,15 +19,15 @@ TreeNode* create_node(int id, const char* name, const char* breed) {
     return node;
 }
 
-TreeNode* insert(TreeNode* root, int id, const char* name, const char* breed) {
+TreeNode* insert(TreeNode* root, const char* name, const char* breed) {
     if (root == NULL) {
-        return create_node(id, name, breed);
+        return create_node(name, breed);
     }
 
-    if (id < root->id) {
-        root->left = insert(root->left, id, name, breed);
-    } else if (id > root->id) {
-        root->right = insert(root->right, id, name, breed);
+    if (strcmp(name, root->name) < 0) {
+        root->left = insert(root->left, name, breed);
+    } else if (strcmp(name, root->name) > 0) {
+        root->right = insert(root->right, name, breed);
     }
 
     return root;
