@@ -3,13 +3,13 @@
 #include <string.h>
 #include "btree.h"
 
-int curent_id =0;
+static int Curent_id =0;
 
 TreeNode* create_node(const char* name, const char* breed) {
     TreeNode* node = (TreeNode*)malloc(sizeof(TreeNode));
     node->id = Curent_id++;
     
-    strcpy(node->name, name);
+     strcpy(node->name, name);
     strcpy(node->breed, breed);
     
     node->left = NULL;
@@ -27,7 +27,7 @@ TreeNode* insert(TreeNode* root, const char* name, const char* breed) {
     if (strcmp(name, root->name) < 0) {
         root->left = insert(root->left, name, breed);
     } else if (strcmp(name, root->name) > 0) {
-        root->right = insert(root->right, name, breed);
+        root->right = insert(root->right, name, breed); 
     }
 
     return root;

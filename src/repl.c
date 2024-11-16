@@ -57,8 +57,8 @@ PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement)
     if (strncmp(input_buffer->buffer, "insert", 6) == 0) {
         statement->type = STATEMENT_INSERT;
         
-        int assigned = sscanf(input_buffer->buffer, "insert %d %s %s", &(statement->id), statement->name, statement->breed);
-        if (assigned < 3) {
+        int assigned = sscanf(input_buffer->buffer, "insert  %s %s", statement->name, statement->breed);
+        if (assigned < 2) {
             return PREPARE_UNRECOGNIZED_STATEMENT;
         }
         return PREPARE_SUCCESS;
@@ -71,6 +71,7 @@ PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement)
     return PREPARE_UNRECOGNIZED_STATEMENT;
 }
 
+void execute_statement(Statement* statement, TreeNode** root);
 
 void execute_insert(Statement* statement, TreeNode** root) {
 
@@ -85,10 +86,18 @@ void execute_select(TreeNode* root) {
 }
 
 
-
+void execute_statement(Statement* statement, TreeNode** root) {
+    switch (statement->type) {
+        case (STATEMENT_INSERT):
+            execute_insert(statement, root);
+            break;
+        case (STATEMENT_SELECT):
+            execute_select(*root);
+            break;
+    }
 // Fonction REPL
 
-//Implementer le prepare statement
+}
 //Affichage minimum
 void repl(void) {
     InputBuffer* input_buffer = new_input_buffer();
@@ -121,7 +130,7 @@ void repl(void) {
                 continue;
         }
 
-        execute_statement(&statement);
+        execute_statement(&statement, &root);
 
        
         printf("Executed.\n");
