@@ -18,6 +18,8 @@ TreeNode* search(TreeNode* root, int id);
 //TreeNode* delete
 
 
+TreeNode* load_tree(const char* filename);
+
 
 
 void inorder(TreeNode* root);

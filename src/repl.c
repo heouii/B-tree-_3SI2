@@ -84,7 +84,16 @@ void execute_select(TreeNode* root) {
     printf("Executing select:\n");
     inorder(root);
 }
-
+ 
+ 
+ void save_tree( TreeNode* root, FILE* file) {
+    if ( root != NULL) {
+        fprintf(file, "%d,%s,%s\n", root->id, root->name, root->breed);
+        
+        save_tree ( root->left, file);
+        save_tree( root->right, file);
+    }
+}
 
 void execute_statement(Statement* statement, TreeNode** root) {
     switch (statement->type) {
@@ -95,13 +104,26 @@ void execute_statement(Statement* statement, TreeNode** root) {
             execute_select(*root);
             break;
     }
-// Fonction REPL
+
+
+   
+/////////////////////////////////////////////////////////////////////////////////// Fonction REPL //////////////////////////////////////////////////////////////////////
 
 }
 //Affichage minimum
 void repl(void) {
     InputBuffer* input_buffer = new_input_buffer();
-    TreeNode* root = NULL;
+    TreeNode* root = load_tree("data_base.txt");
+
+if (root != NULL){
+
+    printf("Load with success");
+    }else{
+printf("Data base not found");
+
+    }
+
+
     while (true) {
         print_prompt();
 
@@ -135,4 +157,10 @@ void repl(void) {
        
         printf("Executed.\n");
     }
+
+    FILE* file = fopen("data_base.txt", "w"); //w Pour l'ouverture du fichier
+if (file) {
+    save_tree(root, file);
+    fclose(file);
+}
 }
