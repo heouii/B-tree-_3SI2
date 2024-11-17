@@ -57,6 +57,8 @@ MetaCommandResult do_meta_command(InputBuffer* input_buffer) {
 
 PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement) {
     if (strncmp(input_buffer->buffer, "insert", 6) == 0) {
+
+        
         statement->type = STATEMENT_INSERT;
         int assigned = sscanf(input_buffer->buffer, "insert %31s %31s", statement->name, statement->breed);
         if (assigned < 2) {
@@ -65,13 +67,27 @@ PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement)
         return PREPARE_SUCCESS;
     }
     if (strcmp(input_buffer->buffer, "select") == 0) {
+
+
         statement->type = STATEMENT_SELECT;
         return PREPARE_SUCCESS;
     }
     if (strncmp(input_buffer->buffer, "delete", 6) == 0) {
+
+
         statement->type = STATEMENT_DELETE;
         int assigned = sscanf(input_buffer->buffer, "delete %d", &statement->id);
         if (assigned < 1) {
+            return PREPARE_UNRECOGNIZED_STATEMENT;
+        }
+        return PREPARE_SUCCESS;
+    }
+    if (strncmp(input_buffer->buffer, "update", 6) == 0) {
+
+
+        statement->type = STATEMENT_UPDATE;
+        int assigned = sscanf(input_buffer->buffer, "update %d %31s %31s", &statement->id, statement->name, statement->breed);
+        if (assigned < 3) {
             return PREPARE_UNRECOGNIZED_STATEMENT;
         }
         return PREPARE_SUCCESS;
@@ -111,17 +127,19 @@ void execute_select(TreeNode* root) {
 
 void execute_statement(Statement* statement, TreeNode** root) {
     switch (statement->type) {
-
-
         case (STATEMENT_INSERT):
             execute_insert(statement, root);
             break;
         case (STATEMENT_SELECT):
             execute_select(*root);
             break;
-            case (STATEMENT_DELETE):
+        case (STATEMENT_DELETE):
             *root = delete_node(*root, statement->id);
             printf("Executed delete for ID=%d\n", statement->id);
+            break;
+        case (STATEMENT_UPDATE):
+            update_node(*root, statement->id, statement->name, statement->breed);
+            printf("Executed update for ID=%d\n", statement->id);
             break;
     }
 

@@ -21,6 +21,29 @@ TreeNode* create_node(const char* name, const char* breed) {
     return node;
 }
 
+
+
+void update_node(TreeNode* root, int id, const char* name, const char* breed) {
+
+
+    if (root == NULL) return;
+
+    if (root->id == id) {
+
+
+        strncpy(root->name, name, 31);
+        root->name[31] = '\0'; 
+        strncpy(root->breed, breed, 31);
+        root->breed[31] = '\0';
+    } else if (id < root->id) {
+
+        
+        update_node(root->left, id, name, breed);
+    } else {
+        update_node(root->right, id, name, breed);
+    }
+}
+
 TreeNode* insert(TreeNode* root, const char* name, const char* breed) {
 
 
@@ -152,6 +175,9 @@ TreeNode* load_tree(const char* filename) {
 
         root = insert(root, name, breed);
     }
+
+
+    
 
     fclose(file);
     return root;

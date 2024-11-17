@@ -24,7 +24,8 @@ typedef enum
 {
     STATEMENT_INSERT,
     STATEMENT_SELECT,
-    STATEMENT_DELETE
+    STATEMENT_DELETE,
+    STATEMENT_UPDATE
 } StatementType;
 
 

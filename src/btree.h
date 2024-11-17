@@ -16,6 +16,7 @@ TreeNode* insert(TreeNode* root,  const char* name, const char* breed);
 TreeNode* search(TreeNode* root, int id);
 
 TreeNode* delete_node(TreeNode* root, int id);
+void update_node(TreeNode* root, int id, const char* name, const char* breed);
 
 
 TreeNode* load_tree(const char* filename);
