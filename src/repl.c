@@ -44,7 +44,10 @@ void close_input_buffer(InputBuffer* input_buffer) {
 
 
 MetaCommandResult do_meta_command(InputBuffer* input_buffer) {
+
     if (strcmp(input_buffer->buffer, ".exit") == 0) {
+
+
         close_input_buffer(input_buffer);
         exit(EXIT_SUCCESS);
     } else {
@@ -52,12 +55,10 @@ MetaCommandResult do_meta_command(InputBuffer* input_buffer) {
     }
 }
 
-
 PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement) {
     if (strncmp(input_buffer->buffer, "insert", 6) == 0) {
         statement->type = STATEMENT_INSERT;
-        
-        int assigned = sscanf(input_buffer->buffer, "insert  %s %s", statement->name, statement->breed);
+        int assigned = sscanf(input_buffer->buffer, "insert %31s %31s", statement->name, statement->breed);
         if (assigned < 2) {
             return PREPARE_UNRECOGNIZED_STATEMENT;
         }
@@ -67,7 +68,14 @@ PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement)
         statement->type = STATEMENT_SELECT;
         return PREPARE_SUCCESS;
     }
-
+    if (strncmp(input_buffer->buffer, "delete", 6) == 0) {
+        statement->type = STATEMENT_DELETE;
+        int assigned = sscanf(input_buffer->buffer, "delete %d", &statement->id);
+        if (assigned < 1) {
+            return PREPARE_UNRECOGNIZED_STATEMENT;
+        }
+        return PREPARE_SUCCESS;
+    }
     return PREPARE_UNRECOGNIZED_STATEMENT;
 }
 
@@ -111,6 +119,10 @@ void execute_statement(Statement* statement, TreeNode** root) {
         case (STATEMENT_SELECT):
             execute_select(*root);
             break;
+            case (STATEMENT_DELETE):
+            *root = delete_node(*root, statement->id);
+            printf("Executed delete for ID=%d\n", statement->id);
+            break;
     }
 
 
@@ -119,7 +131,7 @@ void execute_statement(Statement* statement, TreeNode** root) {
 
 }
 //Affichage minimum
-bool running = true; 
+
 
 void repl(void) {
 
@@ -130,6 +142,8 @@ void repl(void) {
     printf(root != NULL ? "Database loaded successfully.\n"
                         : "Starting with an empty database.\n");
 
+                        bool running = true; 
+
     while (running) {
 
 
@@ -137,10 +151,16 @@ void repl(void) {
         read_input(input_buffer);
 
         if (strcmp(input_buffer->buffer, "exit") == 0) {
+
+
             close_input_buffer(input_buffer);
             running = false;  
         } else if (input_buffer->buffer[0] == '.') {
+
+
             switch (do_meta_command(input_buffer)) {
+
+
                 case META_COMMAND_SUCCESS:
                     continue;
                 case META_COMMAND_UNRECOGNIZED_COMMAND:
@@ -148,6 +168,8 @@ void repl(void) {
                     continue;
             }
         } else {
+
+
             Statement statement;
             switch (prepare_statement(input_buffer, &statement)) {
 

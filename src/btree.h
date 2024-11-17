@@ -15,7 +15,7 @@ typedef struct TreeNode
 TreeNode* insert(TreeNode* root,  const char* name, const char* breed);
 TreeNode* search(TreeNode* root, int id);
 
-//TreeNode* delete
+TreeNode* delete_node(TreeNode* root, int id);
 
 
 TreeNode* load_tree(const char* filename);

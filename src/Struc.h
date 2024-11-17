@@ -23,7 +23,8 @@ typedef enum
 typedef enum 
 {
     STATEMENT_INSERT,
-    STATEMENT_SELECT
+    STATEMENT_SELECT,
+    STATEMENT_DELETE
 } StatementType;
 
 

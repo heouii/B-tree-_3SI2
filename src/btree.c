@@ -23,7 +23,7 @@ TreeNode* create_node(const char* name, const char* breed) {
 
 TreeNode* insert(TreeNode* root, const char* name, const char* breed) {
 
-    
+
     if (root == NULL) {
         return create_node(name, breed);
     }
@@ -68,6 +68,62 @@ void inorder(TreeNode* root)
         inorder(root->right);
     }
 }
+
+
+
+TreeNode* find_min(TreeNode* node){
+
+
+    while (node->left != NULL){
+
+        node = node->left;
+    }
+    return node;
+}
+
+
+
+
+TreeNode* delete_node(TreeNode* root, int id){
+
+    if(root == NULL) return root;
+
+    if (id < root->id){
+
+        root -> left = delete_node (root ->left, id);
+
+
+    }else if (id > root->id){
+
+        root ->right = delete_node(root -> right, id);
+
+
+    }else{
+
+        if (root->left == NULL){
+
+            TreeNode* temp = root->right;
+            free(root);
+            return temp;
+        }else if (root ->right == NULL ){
+
+            TreeNode* temp = root-> left; 
+            free(root);
+            return temp;
+        }
+
+
+        TreeNode* temp = find_min(root->right);
+        root->id = temp->id;
+        strcpy(root->name, temp->name);
+        strcpy(root->breed, temp->breed);
+
+        root -> right = delete_node(root ->right, temp->id);
+    }
+    return root;
+}
+
+
 
 
 TreeNode* load_tree(const char* filename) {
