@@ -111,56 +111,50 @@ void execute_statement(Statement* statement, TreeNode** root) {
 
 }
 //Affichage minimum
+bool running = true; 
+
 void repl(void) {
     InputBuffer* input_buffer = new_input_buffer();
-    TreeNode* root = load_tree("data_base.txt");
+    TreeNode* root = load_tree("database.txt"); 
 
-if (root != NULL){
+    printf(root != NULL ? "Database loaded successfully.\n"
+                        : "Starting with an empty database.\n");
 
-    printf("Load with success");
-    }else{
-printf("Data base not found");
-
-    }
-
-
-    while (true) {
+    while (running) {
         print_prompt();
-
-
         read_input(input_buffer);
 
-        if (input_buffer->buffer[0] == '.') {
-
+        if (strcmp(input_buffer->buffer, "exit") == 0) {
+            close_input_buffer(input_buffer);
+            running = false;  
+        } else if (input_buffer->buffer[0] == '.') {
             switch (do_meta_command(input_buffer)) {
-
                 case META_COMMAND_SUCCESS:
                     continue;
                 case META_COMMAND_UNRECOGNIZED_COMMAND:
-
-
                     printf("Unrecognized command '%s'\n", input_buffer->buffer);
                     continue;
             }
+        } else {
+            Statement statement;
+            switch (prepare_statement(input_buffer, &statement)) {
+                case PREPARE_SUCCESS:
+                    break;
+                case PREPARE_UNRECOGNIZED_STATEMENT:
+                    printf("Unknown keyword '%s'.\n", input_buffer->buffer);
+                    continue;
+            }
+            execute_statement(&statement, &root);
+            printf("Executed.\n");
         }
-         Statement statement;
-        switch (prepare_statement(input_buffer, &statement)) {
-            case PREPARE_SUCCESS:
-                break;
-            case PREPARE_UNRECOGNIZED_STATEMENT:
-                printf("Unknow keyword '%s'.\n", input_buffer->buffer);
-                continue;
-        }
-
-        execute_statement(&statement, &root);
-
-       
-        printf("Executed.\n");
     }
 
-    FILE* file = fopen("data_base.txt", "w"); //w Pour l'ouverture du fichier
-if (file) {
-    save_tree(root, file);
-    fclose(file);
-}
+    FILE* file = fopen("database.txt", "w");
+    if (file) {
+        save_tree(root, file);
+        fclose(file);
+        printf("Database saved to file\n");
+    } else {
+        perror("Error: Couldn't open file to save");
+    }
 }

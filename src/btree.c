@@ -66,38 +66,34 @@ void inorder(TreeNode* root)
 }
 
 
-TreeNode* load_tree( const char* filename){
-
-FILE* file = fopen (filename, "r");// r pour ecriture
-if(!file){
-
-    return NULL;
-}
+TreeNode* load_tree(const char* filename) {
 
 
-TreeNode* root = NULL;
+    FILE* file = fopen(filename, "r");
+    if (!file) {
 
-char line [256];
-
-while (fgets(line, sizeof(line),file)){
-
-    int id;
-
-    char name[32], breed[32];
-
-    if(sscanf(line, "%d,%31[^,],%31s", &id, name, breed)){
-
-        continue;
-
-
+        
+        printf("No existing database found.\n");
+        return NULL;
     }
 
-    root = insert (root, name, breed);
+    TreeNode* root = NULL;
+    char line[256];
 
+    while (fgets(line, sizeof(line), file)) {
+
+
+        int id;
+        char name[32], breed[32];
+
+        if (sscanf(line, "%d,%31[^,],%31s", &id, name, breed) != 3) {
+            continue;
+        }
+
+        root = insert(root, name, breed);
+    }
+
+    fclose(file);
+    return root;
 }
 
-fclose(file);
-
-return root;
-
-}
