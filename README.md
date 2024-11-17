@@ -19,7 +19,8 @@ Ce projet est une base de données simple en ligne de commande écrite en C. Il 
    ```bash
    pacman -Syu
 Copy
-Installer les Outils de Développement :
+3. **Installer les Outils de Développement** :
+   ```bash
 pacman -S base-devel
 pacman -S mingw-w64-x86_64-gcc
 Copy
