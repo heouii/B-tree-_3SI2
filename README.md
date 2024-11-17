@@ -24,44 +24,45 @@ Ce projet est une base de données simple en ligne de commande écrite en C. Il 
     pacman -S base-devel
     pacman -S mingw-w64-x86_64-gcc
 
-Compilation du Projet
-1. Compilation avec l’Environnement MSYS2
-Ouvrir MSYS2 :
+#Compilation du Projet
+##1. Compilation avec l’Environnement MSYS2
+**Ouvrir MSYS2** :
 
 Lancez le terminal MSYS2 depuis le menu démarrer.
 Naviguer jusqu'au Répertoire du Projet :
+    ```bash
+    cd "Nom_chemin/class_db-main"
 
-cd "/d/ESGI3/S1/Langage C/Projet/class_db-main"
-Copy
-Compiler le Projet :
+**Compiler le Projet** :
+    ```bash
+    make
 
-make
-
-Exécuter le Programme :
-
-./class_db
+**Exécuter le Programme** :
+    ```bash
+    ./class_db
  
-2. Compilation avec MinGW pour un Exécutable Autonome
-Ouvrir le Terminal MinGW64 fourni par MSYS2 :
+##2. Compilation avec MinGW pour un Exécutable Autonome
+1. **Ouvrir le Terminal MinGW64 fourni par MSYS2** :
 
 Cherchez MSYS2 MinGW 64-bit dans le menu démarrer.
-Naviguer jusqu'au Répertoire du Projet :
+2. **Naviguer jusqu'au Répertoire du Projet** :
+    ```bash
+    cd "Nom_chemin/class_db-main"
 
-cd "/d/ESGI3/S1/Langage C/Projet/class_db-main"
+3. **Compiler le Projet** :
+    ```bash
+    gcc -std=c11 -Wall -Wextra -O2 -g -o class_db src/*.c
 
-Compiler le Projet :
+4. **Exécuter le Programme** :
+    ```bash
+    ./class_db.exe
 
-gcc -std=c11 -Wall -Wextra -O2 -g -o class_db src/*.c
+##Nettoyage
+1. **Pour supprimer les fichiers objets et l'exécutable, utilisez** :
+    ```bash
+    make clean
 
-Exécuter le Programme :
-
-./class_db.exe
-
-Nettoyage
-Pour supprimer les fichiers objets et l'exécutable, utilisez :
-make clean
-
-Remarques
-Assurez-vous d'avoir configuré votre environnement correctement.
-En compilant avec MinGW, vérifiez que toutes les bibliothèques sont incluses.
+##Remarques
+1. **Assurez-vous d'avoir configuré votre environnement correctement.**
+3. **En compilant avec MinGW, vérifiez que toutes les bibliothèques sont incluses.**
 
