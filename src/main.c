@@ -1,15 +1,7 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include "btree.h"
-#include <stdbool.h>
-#include <string.h>
 #include "repl.h"
 
-
-
-int main(int argc, char* argv[], char* envp[]){
-  
-  repl();
-  return 0;
-   
+int main(int argc, char* argv[]) {
+    repl();
+    return 0;
 }
