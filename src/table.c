@@ -11,6 +11,8 @@ Database* create_database() {
 
 void add_table(Database* db, const char* table_name) {
     if (db->table_count < MAX_TABLES) {
+
+        //copy table_name in name
         strncpy(db->tables[db->table_count].name, table_name, 31);
         db->tables[db->table_count].name[31] = '\0';
         db->tables[db->table_count].root = NULL;
@@ -20,3 +22,5 @@ void add_table(Database* db, const char* table_name) {
         printf("ERROR: Maximum number of tables reached.\n");
     }
 }
+
+

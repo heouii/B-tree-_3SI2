@@ -8,36 +8,44 @@
 #include "repl.h"
 #include "table.h"
 
+// Initialize new buffer for user input
 InputBuffer* new_input_buffer() {
     InputBuffer* input_buffer = (InputBuffer*)malloc(sizeof(InputBuffer));
+    // buffer to hold the command line entered by user
     input_buffer->buffer = NULL;
     input_buffer->buffer_length = 0;
     input_buffer->input_length = 0;
     return input_buffer;
 }
 
+// Display the prompt
 void print_prompt() {
     printf("db > ");
 }
 
+// Read the user input and store in buffer
 void read_input(InputBuffer* input_buffer) {
     size_t buffer_size = 1024;
     input_buffer->buffer = malloc(buffer_size);
 
+    // Read line from stdin and check if success
     if (!fgets(input_buffer->buffer, buffer_size, stdin)) {
         printf("Error reading input\n");
         exit(EXIT_FAILURE);
     }
 
+    // We remove the newline from the end and add '\0'
     input_buffer->input_length = strlen(input_buffer->buffer) - 1;
     input_buffer->buffer[input_buffer->input_length] = '\0';
 }
 
+// Close and clean up the buffer
 void close_input_buffer(InputBuffer* input_buffer) {
     free(input_buffer->buffer);
     free(input_buffer);
 }
 
+// Handle special commands starting with a dot (meta command)
 MetaCommandResult do_meta_command(InputBuffer* input_buffer) {
     if (strcmp(input_buffer->buffer, ".exit") == 0) {
         close_input_buffer(input_buffer);
@@ -47,12 +55,14 @@ MetaCommandResult do_meta_command(InputBuffer* input_buffer) {
     }
 }
 
+// Prepare the statement for execution
 PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement) {
     char* keyword = strtok(input_buffer->buffer, " ");
 
     if (strcasecmp(keyword, "insert") == 0) {
         char* into = strtok(NULL, " ");
         char* table_name = strtok(NULL, " ");
+        // Simple syntax checking
         if (!into || strcmp(into, "into") != 0 || !table_name) {
             return PREPARE_UNRECOGNIZED_STATEMENT;
         }
@@ -117,8 +127,10 @@ PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement)
     return PREPARE_UNRECOGNIZED_STATEMENT;
 }
 
+// Execute the prepared statement depending on type
 void execute_statement(Statement* statement, Database* db);
 
+// Insert data into the table
 void execute_insert(Statement* statement, Table* table) {
     Column* columns = NULL;
     printf("Add columns in 'column=value' format. Type 'end' to finish.\n");
@@ -132,6 +144,7 @@ void execute_insert(Statement* statement, Table* table) {
             break;
         }
 
+        // We expect the user to enter column correctly
         char* name = strtok(col_input, "=");
         char* value = strtok(NULL, "=");
         if (name && value) {
@@ -141,10 +154,12 @@ void execute_insert(Statement* statement, Table* table) {
         }
     }
 
+    // Insert the columns to B-Tree
     table->root = insert(table->root, columns);
     printf("Insert completed for table=%s\n", table->name);
 }
 
+// Select (read) all data in the table
 void execute_select(Table* table) {
     printf("Selecting from table: %s\n", table->name);
     print_separator();
@@ -154,6 +169,7 @@ void execute_select(Table* table) {
     print_separator();
 }
 
+// Update specific entries in the table
 void execute_update(Statement* statement, Table* table) {
     Column* new_columns = NULL;
     add_column(&new_columns, statement->column_name, statement->column_value);
@@ -161,10 +177,12 @@ void execute_update(Statement* statement, Table* table) {
     printf("Update executed for ID=%d in table %s\n", statement->id, table->name);
 }
 
+
+// Save the table to a file
 void save_table(Table* table) {
     char filename[64];
     snprintf(filename, sizeof(filename), "%s.txt", table->name);
-    FILE* file = fopen(filename, "w");
+    FILE* file = fopen(filename, "w"); //w for write in the file
     if (file) {
         save_tree(table->root, file);
         fclose(file);
@@ -174,6 +192,8 @@ void save_table(Table* table) {
     }
 }
 
+
+// Load the table from a file
 void load_table(Table* table) {
     char filename[64];
     snprintf(filename, sizeof(filename), "%s.txt", table->name);
@@ -187,6 +207,8 @@ void load_table(Table* table) {
     }
 }
 
+
+// Handle execution of different types of statements based on their type
 void execute_statement(Statement* statement, Database* db) {
     if (statement->type == STATEMENT_CREATE_TABLE) {
         if (db->table_count < MAX_TABLES) {
@@ -223,6 +245,7 @@ void execute_statement(Statement* statement, Database* db) {
         return;
     }
 
+    // Execute appropriate operation based on what we need here
     switch (statement->type) {
         case STATEMENT_INSERT:
             execute_insert(statement, table);
@@ -244,13 +267,15 @@ void execute_statement(Statement* statement, Database* db) {
     save_table(table);  
 }
 
+///////////////////////////////////////////////////////////////////////////// REPL////////////////////////////////////////////////////////////////////////////////////// 
 void repl(void) {
     Database* db = create_database();
     InputBuffer* input_buffer = new_input_buffer();
 
+    // Start by telling the user what we gonna do
     printf("Starting database with an empty dataset.\n");
 
-    
+    // Load tables if that already exist here
     for (int i = 0; i < MAX_TABLES; i++) {
         char filename[64];
         snprintf(filename, sizeof(filename), "table_%d.txt", i);
@@ -262,7 +287,7 @@ void repl(void) {
             db->table_count++;
         }
     }
-
+    //If bool is true continue
     bool running = true; 
     while (running) {
         print_prompt();

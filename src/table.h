@@ -18,4 +18,5 @@ typedef struct {
 Database* create_database();
 void add_table(Database* db, const char* table_name);
 
+
 #endif

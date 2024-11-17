@@ -8,11 +8,13 @@ typedef struct Column {
 } Column;
 
 typedef struct TreeNode {
-    int id;
+    int id; //identifier for a node
     Column* columns;
-    struct TreeNode* left;
-    struct TreeNode* right;
+    struct TreeNode* left; //pointer for left child
+    struct TreeNode* right; //pointer for right child
 } TreeNode;
+
+// Prototypes for every functions for work with tree and columns
 
 void add_column(Column** head, const char* name, const char* value);
 TreeNode* insert(TreeNode* root, Column* columns);
