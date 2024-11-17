@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <sys/stat.h> // Pour vérifier l'existence des fichiers
+#include <sys/stat.h>
 #include "btree.h"
 #include "struc.h"
 #include "repl.h"
@@ -190,19 +190,19 @@ void load_table(Table* table) {
 void execute_statement(Statement* statement, Database* db) {
     if (statement->type == STATEMENT_CREATE_TABLE) {
         if (db->table_count < MAX_TABLES) {
-            // Vérifiez que le nom de la table n'existe pas déjà
+            // Verify the table name doesn't already exist
             for (int i = 0; i < db->table_count; i++) {
                 if (strcmp(db->tables[i].name, statement->table_name) == 0) {
                     printf("ERROR: Table '%s' already exists.\n", statement->table_name);
                     return;
                 }
             }
-
             strncpy(db->tables[db->table_count].name, statement->table_name, 31);
             db->tables[db->table_count].name[31] = '\0';
             db->tables[db->table_count].root = NULL;
             db->table_count++;
             printf("Table '%s' created.\n", statement->table_name);
+            save_table(&db->tables[db->table_count - 1]);  // Save after creation
             return;
         } else {
             printf("ERROR: Maximum number of tables reached.\n");
@@ -241,6 +241,7 @@ void execute_statement(Statement* statement, Database* db) {
             execute_update(statement, table);
             break;
     }
+    save_table(table);  // Save after any modification
 }
 
 void repl(void) {
@@ -249,7 +250,7 @@ void repl(void) {
 
     printf("Starting database with an empty dataset.\n");
 
-    // Chargez uniquement les tables existantes
+    // Load existing tables based on their names
     for (int i = 0; i < MAX_TABLES; i++) {
         char filename[64];
         snprintf(filename, sizeof(filename), "table_%d.txt", i);
@@ -290,11 +291,6 @@ void repl(void) {
                     continue;
             }
         }
-    }
-
-    // Sauvegardez toutes les tables lors de la fermeture
-    for (int i = 0; i < db->table_count; i++) {
-        save_table(&db->tables[i]);
     }
 
     close_input_buffer(input_buffer);
