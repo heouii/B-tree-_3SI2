@@ -6,6 +6,8 @@
 static int Curent_id =0;
 
 TreeNode* create_node(const char* name, const char* breed) {
+
+
     TreeNode* node = (TreeNode*)malloc(sizeof(TreeNode));
     node->id = Curent_id++;
     
@@ -20,6 +22,8 @@ TreeNode* create_node(const char* name, const char* breed) {
 }
 
 TreeNode* insert(TreeNode* root, const char* name, const char* breed) {
+
+    
     if (root == NULL) {
         return create_node(name, breed);
     }

@@ -75,12 +75,16 @@ void execute_statement(Statement* statement, TreeNode** root);
 
 void execute_insert(Statement* statement, TreeNode** root) {
 
+    
+
     *root = insert(*root,  statement->name, statement->breed);
 
     printf("Executed insert:Name=%s Breed=%s\n", statement->name, statement->breed);
 }
 
 void execute_select(TreeNode* root) {
+
+
     printf("Executing select:\n");
     inorder(root);
 }
@@ -88,6 +92,8 @@ void execute_select(TreeNode* root) {
  
  void save_tree( TreeNode* root, FILE* file) {
     if ( root != NULL) {
+
+
         fprintf(file, "%d,%s,%s\n", root->id, root->name, root->breed);
         
         save_tree ( root->left, file);
@@ -97,6 +103,8 @@ void execute_select(TreeNode* root) {
 
 void execute_statement(Statement* statement, TreeNode** root) {
     switch (statement->type) {
+
+
         case (STATEMENT_INSERT):
             execute_insert(statement, root);
             break;
@@ -114,6 +122,8 @@ void execute_statement(Statement* statement, TreeNode** root) {
 bool running = true; 
 
 void repl(void) {
+
+
     InputBuffer* input_buffer = new_input_buffer();
     TreeNode* root = load_tree("database.txt"); 
 
@@ -121,6 +131,8 @@ void repl(void) {
                         : "Starting with an empty database.\n");
 
     while (running) {
+
+
         print_prompt();
         read_input(input_buffer);
 
@@ -138,9 +150,13 @@ void repl(void) {
         } else {
             Statement statement;
             switch (prepare_statement(input_buffer, &statement)) {
+
+
                 case PREPARE_SUCCESS:
+
                     break;
                 case PREPARE_UNRECOGNIZED_STATEMENT:
+
                     printf("Unknown keyword '%s'.\n", input_buffer->buffer);
                     continue;
             }
@@ -151,10 +167,14 @@ void repl(void) {
 
     FILE* file = fopen("database.txt", "w");
     if (file) {
+
+
         save_tree(root, file);
         fclose(file);
         printf("Database saved to file\n");
     } else {
+
+
         perror("Error: Couldn't open file to save");
     }
 }
