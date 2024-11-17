@@ -18,51 +18,68 @@ Ce projet est une base de données simple en ligne de commande écrite en C. Il 
 2. **Mettre à Jour les Paquets** :
    ```bash
    pacman -Syu
+   ```
 
 3. **Installer les Outils de Développement** :
    ```bash
-    pacman -S base-devel
-    pacman -S mingw-w64-x86_64-gcc
+   pacman -S base-devel
+   pacman -S mingw-w64-x86_64-gcc
+   ```
 
-#Compilation du Projet
-##1. Compilation avec l’Environnement MSYS2
-**Ouvrir MSYS2** :
+## Compilation du Projet
 
-Lancez le terminal MSYS2 depuis le menu démarrer.
-Naviguer jusqu'au Répertoire du Projet :
-    ```bash
-    cd "Nom_chemin/class_db-main"
+### 1. Compilation avec l’Environnement MSYS2
 
-**Compiler le Projet** :
-    ```bash
-    make
+1. **Ouvrir MSYS2** :
+   - Lancez le terminal MSYS2 depuis le menu démarrer.
 
-**Exécuter le Programme** :
-    ```bash
-    ./class_db
- 
-##2. Compilation avec MinGW pour un Exécutable Autonome
-1. **Ouvrir le Terminal MinGW64 fourni par MSYS2** :
-
-Cherchez MSYS2 MinGW 64-bit dans le menu démarrer.
 2. **Naviguer jusqu'au Répertoire du Projet** :
-    ```bash
-    cd "Nom_chemin/class_db-main"
+   ```bash
+   cd "Nom_chemin/class_db-main"
+   ```
 
 3. **Compiler le Projet** :
-    ```bash
-    gcc -std=c11 -Wall -Wextra -O2 -g -o class_db src/*.c
+   ```bash
+   make
+   ```
 
 4. **Exécuter le Programme** :
-    ```bash
-    ./class_db.exe
+   ```bash
+   ./class_db
+   ```
 
-##Nettoyage
-1. **Pour supprimer les fichiers objets et l'exécutable, utilisez** :
-    ```bash
-    make clean
+### 2. Compilation avec MinGW pour un Exécutable Autonome
 
-##Remarques
-1. **Assurez-vous d'avoir configuré votre environnement correctement.**
-3. **En compilant avec MinGW, vérifiez que toutes les bibliothèques sont incluses.**
+1. **Ouvrir le Terminal MinGW64 fourni par MSYS2** :
+   - Cherchez MSYS2 MinGW 64-bit dans le menu démarrer.
 
+2. **Naviguer jusqu'au Répertoire du Projet** :
+   ```bash
+   cd "Nom_chemin/class_db-main"
+   ```
+
+3. **Compiler le Projet** :
+   ```bash
+   gcc -std=c11 -Wall -Wextra -O2 -g -o class_db src/*.c
+   ```
+
+4. **Exécuter le Programme** :
+   ```bash
+   ./class_db.exe
+   ```
+
+## Nettoyage
+
+- **Pour supprimer les fichiers objets et l'exécutable, utilisez** :
+  ```bash
+  make clean
+  ```
+
+## Remarques
+
+- **Assurez-vous d'avoir configuré votre environnement correctement.**
+- **En compilant avec MinGW, vérifiez que toutes les bibliothèques sont incluses.**
+
+---
+
+Remplacez `"Nom_chemin/class_db-main"` par le chemin correct vers votre répertoire de projet. 
