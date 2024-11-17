@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-=======
-Voici une structure de `README.md` basée sur ce que nous avons discuté pour votre projet de base de données en C :
-
----
-
->>>>>>> 3e40578dfe5deb5245f79d36cac6075f8caee00c
 # Projet de Base de Données en C
 
 ## Description du Projet
