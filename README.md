@@ -1,4 +1,3 @@
-```markdown
 # Projet de Base de Données en C Ilyes Miraoui 3SI2
 
 ## Description du Projet
