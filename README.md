@@ -1,8 +1,33 @@
-# Projet de Base de Données en C
+```markdown
+# Projet de Base de Données en C Ilyes Miraoui 3SI2
 
 ## Description du Projet
 
 Ce projet est une base de données simple en ligne de commande écrite en C. Il permet la gestion de tables avec des opérations classiques telles que la création, l'insertion, la sélection, la mise à jour et la suppression.
+
+## Conception du Système et Choix Techniques
+
+### Structure de Données avec Arbre Binaire
+
+Pour notre système de gestion de base de données, nous avons opté pour une structure d'arbre binaire. Ce choix est motivé par plusieurs facteurs techniques :
+
+- **Efficacité de Recherche et Manipulation** : 
+  - L'arbre binaire permet des opérations de recherche, d'insertion et de suppression de données en temps logarithmique, optimisant ainsi les opérations fréquentes sur les données.
+  - Cette efficacité est cruciale dans les scénarios où des modifications fréquentes sont nécessaires.
+
+- **Simplicité de Mise en Œuvre** :
+  - Cette structure est relativement simple à comprendre et à implémenter, rendant le développement et la maintenance du code plus aisés.
+  - Elle s'adapte parfaitement aux opérations récursives courantes dans les applications CRUD (Create, Read, Update, Delete).
+
+- **Scalabilité** :
+  - Avec l'augmentation du volume de données, l'arbre binaire continue d'assurer des performances prévisibles et stables, contrairement aux structures linéaires.
+
+### Organisation Modulaire du Code
+
+Le code est structuré de manière modulaire, séparant clairement la gestion des données (comme l'arbre binaire) des interfaces utilisateur et des logiques de commande. Cela facilite la réutilisabilité et la maintenance continue du système.
+
+- **Modularité** : Les modules sont indépendants, permettant des évolutions sans impact sur l'ensemble du système.
+- **Lisibilité et Maintenance** : Chaque fichier source est dédié à un composant particulier, favorisant ainsi une meilleure lisibilité et un débogage plus efficace.
 
 ## Installation et Compilation
 
@@ -115,3 +140,4 @@ make clean
 ---
 
 Remplacez `"Nom_chemin/class_db-main"` par le chemin correct vers votre répertoire de projet.
+
